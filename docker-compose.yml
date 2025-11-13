@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/workspaces:/app/workspaces
+    environment:
+      - GPT_PILOT_BASE_URL=http://gpt-pilot:8081
+      - GOOGLE_AI_STUDIO_API_KEY=${GOOGLE_AI_STUDIO_API_KEY}
+  gpt-pilot:
+    image: python:3.11-slim
+    working_dir: /srv/gpt-pilot
+    command: bash -c "sleep 2 && echo 'You must clone Pythagora-io/gpt-pilot here and run its server entrypoint. See backend/README.md for instructions.' && tail -f /dev/null"
+    volumes:
+      - ./gpt-pilot:/srv/gpt-pilot
